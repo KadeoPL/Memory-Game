@@ -1,1 +1,65 @@
+@import url("https://fonts.googleapis.com/css2?family=Pirata+One&display=swap");
 @import "tailwindcss";
+
+@theme {
+  --font-pirata: "Pirata One", sans-serif;
+}
+
+/* .start-button {
+  font-size: 16px;
+  color: white;
+  border: 16px solid transparent;
+  padding: 6px 22px;
+  border-image: url("../public/button_dark.png") 160 stretch;
+  cursor: pointer;
+  background-color: aliceblue;
+  background-clip: padding-box;
+  position: relative;
+  margin: -16px;
+} */
+/* 
+.start-button-bg {
+  background-image: url("../public/button-bg.png");
+  padding: 12px 60px;
+} */
+
+.start-button {
+  position: relative;
+  display: inline-block;
+  padding: 6px 22px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  z-index: 1;
+}
+
+.start-button::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -13px;
+  right: -13px;
+  bottom: -8px;
+  background-image: url("../public/button-bg.png");
+  background-size: cover;
+  z-index: -2;
+}
+
+.start-button::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background-image: url("../public/button_dark.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.start-button:hover::before {
+  background-color: rgba(255, 255, 255, 0.5);
+  background-blend-mode: luminosity;
+}
