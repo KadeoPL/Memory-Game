@@ -3,25 +3,17 @@
 
 @theme {
   --font-pirata: "Pirata One", sans-serif;
-}
+  --animate-flip: flip 1s ease-in-out;
 
-/* .start-button {
-  font-size: 16px;
-  color: white;
-  border: 16px solid transparent;
-  padding: 6px 22px;
-  border-image: url("../public/button_dark.png") 160 stretch;
-  cursor: pointer;
-  background-color: aliceblue;
-  background-clip: padding-box;
-  position: relative;
-  margin: -16px;
-} */
-/* 
-.start-button-bg {
-  background-image: url("../public/button-bg.png");
-  padding: 12px 60px;
-} */
+  @keyframes flip {
+    0% {
+      transform: rotateY(0deg);
+    }
+    100% {
+      transform: rotateY(180deg);
+    }
+  }
+}
 
 .start-button {
   position: relative;
