@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
+import { CardProps } from "../types/CardProps";
 
-export default function Card() {
+export default function Card({ cardObverseBg, cardReverseBg }: CardProps) {
   const [isCardFlip, setIsCardFlip] = useState(false);
   const [animationClass, setAnimationClass] = useState("");
 
@@ -15,14 +16,22 @@ export default function Card() {
       {isCardFlip ? (
         <div
           onClick={() => setIsCardFlip(false)}
-          className={`bg-green-500 h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in ${animationClass}`}
-        >
-          Card
-        </div>
+          className={`h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in ${animationClass}`}
+          style={{
+            backgroundImage: `url(${cardObverseBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
+        ></div>
       ) : (
         <div
           onClick={() => setIsCardFlip(true)}
-          className={`bg-red-500 h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in ${animationClass}`}
+          className={` h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in ${animationClass}`}
+          style={{
+            backgroundImage: `url(${cardReverseBg})`,
+            backgroundSize: "cover",
+            backgroundPosition: "center",
+          }}
         >
           Card
         </div>
