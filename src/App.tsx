@@ -1,8 +1,25 @@
-import Button from "./components/Button";
+import { useState } from "react";
+import WelcomeScreen from "./views/WelcomeScreen";
+import GameScreen from "./views/GameScreen";
+import { ViewType, OnChangeViewFunction } from "./types/onChangeView";
+
 export default function App() {
-  return (
-    <div className="bg-[url(/public/home_bg.png)] bg-cover bg-top bg-no-repeat w-dvw h-dvh grid place-content-center">
-      <Button text="Play now" />
-    </div>
-  );
+  const [currentView, setCurrentView] = useState<ViewType>("menu");
+
+  const renderView = (currentView: ViewType) => {
+    switch (currentView) {
+      case "menu":
+        return <WelcomeScreen onButtonClick={handleChangeView} />;
+      case "game":
+        return <GameScreen />;
+      default:
+        return null;
+    }
+  };
+
+  const handleChangeView: OnChangeViewFunction = (newView) => {
+    setCurrentView(newView);
+  };
+
+  return renderView(currentView);
 }
