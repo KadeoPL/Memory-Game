@@ -1,4 +1,3 @@
-import { useState } from "react";
 import Card from "../components/Card";
 import { cards } from "../utils/Cards";
 import cardReverseBg from "../assets/cards/back_card_320x480.png";
