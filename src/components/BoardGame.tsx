@@ -1,6 +1,8 @@
 import Card from "../components/Card";
 import { cards } from "../utils/Cards";
 import cardReverseBg from "../assets/cards/back_card_320x480.png";
+import { useState } from "react";
+import { CardProps } from "../types/CardProps";
 
 export default function BoardGame() {
   const memoryCards = [...cards, ...cards].map((card, index) => ({
@@ -8,8 +10,16 @@ export default function BoardGame() {
     id: index,
   }));
 
-  //   const [moves, setMovers] = useState(0);
-  //   const [timeLeft, SetTimeLeft] = useState(0);
+  const [selectedCards, setSelectedCards] = useState<CardProps[]>([]);
+
+  const selectCard = (card: CardProps) => {
+    if (selectedCards.length < 2) {
+      setSelectedCards([...selectedCards, card]);
+    } else {
+      console.log("Dwie karty zaznaczone");
+      console.log(selectedCards);
+    }
+  };
 
   return (
     <div>
@@ -17,13 +27,16 @@ export default function BoardGame() {
         {/* <div>Moves: {moves}</div>
         <div>Time left: {timeLeft}</div> */}
       </div>
-      <div className={`grid grid-cols-4 grid-rows-4 gap-10`}>
+      <div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
         {memoryCards.map((card, index) => (
-          <Card
-            key={index}
-            cardObverseBg={card.imageUrl}
-            cardReverseBg={cardReverseBg}
-          />
+          <div key={index} onClick={() => selectCard(card)}>
+            <Card
+              id={card.id}
+              cardObverseBg={card.cardObverseBg}
+              cardReverseBg={cardReverseBg}
+              disabled={selectedCards.length >= 2}
+            />
+          </div>
         ))}
       </div>
     </div>
