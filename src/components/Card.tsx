@@ -1,7 +1,11 @@
 import { useEffect, useState } from "react";
 import { CardProps } from "../types/CardProps";
 
-export default function Card({ cardObverseBg, cardReverseBg }: CardProps) {
+export default function Card({
+  cardObverseBg,
+  cardReverseBg,
+  name,
+}: CardProps) {
   const [isCardFlip, setIsCardFlip] = useState(false);
   const [animationClass, setAnimationClass] = useState("");
 
@@ -12,30 +16,18 @@ export default function Card({ cardObverseBg, cardReverseBg }: CardProps) {
   }, [isCardFlip]);
 
   return (
-    <>
-      {isCardFlip ? (
-        <div
-          onClick={() => setIsCardFlip(false)}
-          className={`h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in ${animationClass}`}
-          style={{
-            backgroundImage: `url(${cardObverseBg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        ></div>
-      ) : (
-        <div
-          onClick={() => setIsCardFlip(true)}
-          className={` h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in ${animationClass}`}
-          style={{
-            backgroundImage: `url(${cardReverseBg})`,
-            backgroundSize: "cover",
-            backgroundPosition: "center",
-          }}
-        >
-          Card
-        </div>
-      )}
-    </>
+    <div
+      onClick={() => setIsCardFlip(!isCardFlip)}
+      style={{
+        backgroundImage: isCardFlip
+          ? `url(${cardReverseBg})`
+          : `url(${cardObverseBg})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+      className={`h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in ${animationClass} cursor-pointer`}
+    >
+      {isCardFlip && <span className="text-white text-lg ">{name}</span>}
+    </div>
   );
 }
