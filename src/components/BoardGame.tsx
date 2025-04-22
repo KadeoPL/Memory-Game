@@ -16,14 +16,31 @@ export default function BoardGame() {
   const [secondSelectedCard, setSecondSelectedCard] =
     useState<CardProps | null>();
   const [isGameComplete, setIsGameComplete] = useState(false);
+  const [moves, setMoves] = useState<number>(0);
+  const [matchedCardsCounter, setMatchedCardsCounter] = useState<number>(0);
+  // const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
     setGameCards(shuffleCards(memoryCards));
+    setMoves(20);
   }, [isGameComplete]);
+
+  const checkingGameComplete = () => {
+    if (matchedCardsCounter === gameCards.length / 2) {
+      console.log("Brawo, wygrałeś!");
+    }
+
+    if (moves === 0) {
+      console.log("Przegrałeś!");
+      setIsGameComplete(true);
+    }
+  };
 
   useEffect(() => {
     if (firstSelectedCard && secondSelectedCard) {
       const isMatch = checkingCard(firstSelectedCard, secondSelectedCard);
+      setMoves(moves - 1);
+      checkingGameComplete();
 
       setTimeout(() => {
         setGameCards((prevCards) =>
@@ -33,6 +50,8 @@ export default function BoardGame() {
               card.id === secondSelectedCard.id
             ) {
               if (isMatch) {
+                setMatchedCardsCounter(matchedCardsCounter + 1);
+                checkingGameComplete();
                 return { ...card, isMatched: true };
               } else {
                 return { ...card, isFlipped: false };
@@ -49,7 +68,7 @@ export default function BoardGame() {
   }, [secondSelectedCard]);
 
   const handleCardClick = (clickedCard: CardProps) => {
-    if (clickedCard.isMatched || clickedCard.isFlipped) {
+    if (clickedCard.isMatched || clickedCard.isFlipped || isGameComplete) {
       return;
     }
 
@@ -70,7 +89,10 @@ export default function BoardGame() {
 
   return (
     <div>
-      <div className="w-full h-10 mb-10 flex justify-between text-white font-pirata text-2xl"></div>
+      <div className="w-full h-10 mb-10 flex justify-between text-white font-pirata text-2xl">
+        Moves: {moves}
+        {/* Time: {time} */}
+      </div>
       <div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
         {gameCards.map((card, index) => (
           <div
