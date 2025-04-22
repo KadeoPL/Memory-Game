@@ -23,7 +23,12 @@ export default function BoardGame() {
   useEffect(() => {
     setGameCards(shuffleCards(memoryCards));
     setMoves(20);
+    setIsGameComplete(false);
   }, [isGameComplete]);
+
+  useEffect(() => {
+    checkingGameComplete();
+  }, [moves, matchedCardsCounter]);
 
   const checkingGameComplete = () => {
     if (matchedCardsCounter === gameCards.length / 2) {
@@ -41,7 +46,6 @@ export default function BoardGame() {
     if (firstSelectedCard && secondSelectedCard) {
       const isMatch = checkingCard(firstSelectedCard, secondSelectedCard);
       setMoves(moves - 1);
-      checkingGameComplete();
 
       setTimeout(() => {
         setGameCards((prevCards) =>
@@ -52,7 +56,6 @@ export default function BoardGame() {
             ) {
               if (isMatch) {
                 setMatchedCardsCounter(matchedCardsCounter + 1);
-                checkingGameComplete();
                 return { ...card, isMatched: true };
               } else {
                 return { ...card, isFlipped: false };
@@ -90,8 +93,17 @@ export default function BoardGame() {
 
   return (
     <div>
-      <div className="w-full h-10 mb-10 flex justify-between text-white font-pirata text-2xl">
-        Moves: {moves}
+      <div className="w-full h-10 mb-10 flex justify-between text-white font-pirata text-3xl">
+        <div>
+          Moves:{" "}
+          <span
+            className={`${
+              moves > 5 ? "text-amber-500" : "text-red-600 animate-pulse"
+            }`}
+          >
+            {moves}
+          </span>
+        </div>
         {/* Time: {time} */}
       </div>
       <div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
@@ -112,13 +124,6 @@ export default function BoardGame() {
           </div>
         ))}
       </div>
-      <button
-        onClick={() => {
-          setIsGameComplete(true);
-        }}
-      >
-        End Game
-      </button>
     </div>
   );
 }
