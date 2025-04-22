@@ -1,15 +1,12 @@
 import Card from "../components/Card";
-import { cards } from "../utils/Cards";
 import { useEffect, useState } from "react";
 import { CardProps } from "../types/CardProps";
+import { GameProps } from "../types/GameProps";
 import { checkingCard } from "../utils/checkingCards";
-import { shuffleCards } from "../utils/shuffleCards";
+import initializeGame from "../utils/initializeGame";
 
 export default function BoardGame() {
-  const memoryCards = [...cards, ...cards].map((card) => ({
-    ...card,
-    id: Math.random(),
-  }));
+  const [gameData, setGameData] = useState<GameProps | null>(null);
   const [gameCards, setGameCards] = useState<CardProps[]>([]);
   const [firstSelectedCard, setFirstSelectedCard] =
     useState<CardProps | null>();
@@ -18,13 +15,19 @@ export default function BoardGame() {
   const [isGameComplete, setIsGameComplete] = useState(false);
   const [moves, setMoves] = useState<number>(0);
   const [matchedCardsCounter, setMatchedCardsCounter] = useState<number>(0);
-  // const [time, setTime] = useState<number>(0);
 
   useEffect(() => {
-    setGameCards(shuffleCards(memoryCards));
-    setMoves(20);
+    const newGameData = initializeGame();
+    setGameData(newGameData);
     setIsGameComplete(false);
   }, [isGameComplete]);
+
+  useEffect(() => {
+    if (gameData) {
+      setGameCards(gameData.cards);
+      setMoves(gameData.moves);
+    }
+  }, [gameData]);
 
   useEffect(() => {
     checkingGameComplete();

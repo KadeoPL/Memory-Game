@@ -1,6 +1,7 @@
 import { useState } from "react";
 import WelcomeScreen from "./views/WelcomeScreen";
 import GameScreen from "./views/GameScreen";
+import SelectLevelScreen from "./views/SelectLevelScreen";
 import { ViewType, OnChangeViewFunction } from "./types/onChangeView";
 
 export default function App() {
@@ -10,6 +11,8 @@ export default function App() {
     switch (currentView) {
       case "menu":
         return <WelcomeScreen onButtonClick={handleChangeView} />;
+      case "level":
+        return <SelectLevelScreen onButtonClick={handleChangeView} />;
       case "game":
         return <GameScreen />;
       default:

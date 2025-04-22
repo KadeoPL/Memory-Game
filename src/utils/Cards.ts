@@ -8,7 +8,7 @@ import card7 from "../assets/cards/front_card_320x480_7.png";
 import card8 from "../assets/cards/front_card_320x480_8.png";
 import card9 from "../assets/cards/front_card_320x480_9.png";
 
-export const cards = [
+export const cardsData = [
   {
     id: 1,
     name: "Shadow Wraith",
