@@ -28,6 +28,7 @@ export default function BoardGame() {
   const checkingGameComplete = () => {
     if (matchedCardsCounter === gameCards.length / 2) {
       console.log("Brawo, wygrałeś!");
+      setIsGameComplete(true);
     }
 
     if (moves === 0) {
