@@ -1,7 +1,8 @@
 export interface CardProps {
-  cardObverseBg: string;
-  cardReverseBg?: string;
-  name?: string;
+  image: string;
+  name: string;
   id: number;
   disabled?: boolean;
+  isFlipped: boolean;
+  isMatched: boolean;
 }

@@ -1,34 +1,23 @@
-import { useState } from "react";
 import { CardProps } from "../types/CardProps";
+import cardReverseBg from "../assets/cards/back_card_320x480.png";
 
-export default function Card({
-  cardObverseBg,
-  cardReverseBg,
-  disabled,
-}: CardProps) {
-  const [isCardFlip, setIsCardFlip] = useState(false);
-
-  const handleClick = () => {
-    if (!disabled) {
-      setIsCardFlip(!isCardFlip);
-    }
-  };
-
+export default function Card({ image, isFlipped, isMatched }: CardProps) {
   return (
     <>
-      {isCardFlip ? (
+      {isFlipped ? (
         <div
-          onClick={handleClick}
           style={{
-            backgroundImage: `url(${cardObverseBg})`,
+            backgroundImage: `url(${image})`,
             backgroundSize: "cover",
             backgroundPosition: "center",
+            opacity: isMatched ? 0.3 : 1,
           }}
-          className={`h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in-out not-last-of-type:cursor-pointer rotate-y-180`}
+          className={`h-30 w-20 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in-out ${
+            !isMatched ? "cursor-pointer" : ""
+          } rotate-y-180`}
         ></div>
       ) : (
         <div
-          onClick={handleClick}
           style={{
             backgroundImage: `url(${cardReverseBg})`,
             backgroundSize: "cover",
