@@ -89,6 +89,13 @@ export default function BoardGame() {
           </div>
         ))}
       </div>
+      <button
+        onClick={() => {
+          setIsGameComplete(true);
+        }}
+      >
+        End Game
+      </button>
     </div>
   );
 }
