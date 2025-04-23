@@ -1,112 +1,22 @@
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
-import { CardProps } from "../types/CardProps";
-import { GameProps } from "../types/GameProps";
-import { checkingCard } from "../utils/checkingCards";
+import { GameState } from "../types/GameState";
+import { useLocation } from "react-router";
 import initializeGame from "../utils/initializeGame";
 
 export default function BoardGame() {
-  const [gameData, setGameData] = useState<GameProps | null>(null);
-  const [gameCards, setGameCards] = useState<CardProps[]>([]);
-  const [firstSelectedCard, setFirstSelectedCard] =
-    useState<CardProps | null>();
-  const [secondSelectedCard, setSecondSelectedCard] =
-    useState<CardProps | null>();
-  const [isGameComplete, setIsGameComplete] = useState(false);
-  const [moves, setMoves] = useState<number>(0);
-  const [matchedCardsCounter, setMatchedCardsCounter] = useState<number>(0);
+  const location = useLocation();
+  const state = location.state as { moves: number };
+  const [gameState, setGameState] = useState<GameState>({
+    cards: [],
+    matchedPairs: 0,
+    moves: 0,
+    isGameOver: false,
+  });
 
   useEffect(() => {
-<<<<<<< HEAD
-    setGameCards(shuffleCards(memoryCards));
-    setMoves(20);
-  }, [isGameComplete]);
-
-  // useEffect(() => {
-  //   checkingGameComplete();
-  // }, [moves, matchedCardsCounter]);
-=======
-    const newGameData = initializeGame();
-    setGameData(newGameData);
-    setIsGameComplete(false);
-  }, [isGameComplete]);
-
-  useEffect(() => {
-    if (gameData) {
-      setGameCards(gameData.cards);
-      setMoves(gameData.moves);
-    }
-  }, [gameData]);
-
-  useEffect(() => {
-    checkingGameComplete();
-  }, [moves, matchedCardsCounter]);
->>>>>>> fd8523c98e81f6afa289494f49fc25527607aad9
-
-  // const checkingGameComplete = () => {
-  //   if (matchedCardsCounter === gameCards.length / 2) {
-  //     alert("Brawo, wygrałeś!");
-  //     if (window.confirm("Spróbuj ponownie!")) {
-  //       setIsGameComplete(true);
-  //     }
-  //   }
-
-  //   if (moves <= 1) {
-  //     alert("Przegrałeś!");
-  //     if (window.confirm("Spróbuj ponownie!")) {
-  //       setIsGameComplete(true);
-  //     }
-  //   }
-  // };
-
-  useEffect(() => {
-    if (firstSelectedCard && secondSelectedCard) {
-      const isMatch = checkingCard(firstSelectedCard, secondSelectedCard);
-      setMoves(moves - 1);
-
-      setTimeout(() => {
-        setGameCards((prevCards) =>
-          prevCards.map((card) => {
-            if (
-              card.id === firstSelectedCard.id ||
-              card.id === secondSelectedCard.id
-            ) {
-              if (isMatch) {
-                setMatchedCardsCounter(matchedCardsCounter + 1);
-                return { ...card, isMatched: true };
-              } else {
-                return { ...card, isFlipped: false };
-              }
-            }
-            return card;
-          })
-        );
-
-        setFirstSelectedCard(null);
-        setSecondSelectedCard(null);
-      }, 1000);
-    }
-  }, [secondSelectedCard]);
-
-  const handleCardClick = (clickedCard: CardProps) => {
-    if (clickedCard.isMatched || clickedCard.isFlipped || isGameComplete) {
-      return;
-    }
-
-    if (firstSelectedCard && secondSelectedCard) {
-      return;
-    }
-
-    setGameCards((prevCards) =>
-      prevCards.map((card) =>
-        card.id === clickedCard.id ? { ...card, isFlipped: true } : card
-      )
-    );
-
-    firstSelectedCard
-      ? setSecondSelectedCard(clickedCard)
-      : setFirstSelectedCard(clickedCard);
-  };
+    setGameState(initializeGame(state.moves));
+  }, [state.moves]);
 
   return (
     <div>
@@ -115,21 +25,22 @@ export default function BoardGame() {
           Moves:
           <span
             className={`${
-              moves > 5 ? "text-amber-500" : "text-red-600 animate-pulse"
+              gameState.moves > 5
+                ? "text-amber-500"
+                : "text-red-600 animate-pulse"
             }`}
           >
-            {moves}
+            {gameState.moves}
           </span>
         </div>
-        {/* Time: {time} */}
       </div>
       <div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
-        {gameCards.map((card, index) => (
+        {gameState.cards.map((card, index) => (
           <div
             key={index}
-            onClick={() => {
-              handleCardClick(card);
-            }}
+            // onClick={() => {
+            //   handleCardClick(card);
+            // }}
           >
             <Card
               id={card.id}

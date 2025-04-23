@@ -1,18 +1,15 @@
-import { cardsData } from "../utils/Cards";
-import { shuffleCards } from "./shuffleCards";
+import generateCards from "./generateCards";
+import { cardsData } from "./Cards";
 
-export default function initializeGame() {
-  const memoryCards = [...cardsData, ...cardsData].map((card) => ({
-    ...card,
-    id: Math.random(),
-    isFlipped: false,
-    isMatched: false,
-  }));
+export default function initializeGame(moves: number) {
+  const gameCards = generateCards(cardsData);
 
-  const shuffledCards = shuffleCards(memoryCards);
-
-  return {
-    cards: shuffledCards,
-    moves: 20,
+  const gameData = {
+    cards: gameCards,
+    matchedPairs: 0,
+    moves: moves,
+    isGameOver: false,
   };
+
+  return gameData;
 }
