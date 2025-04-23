@@ -23,24 +23,27 @@ export default function BoardGame() {
   useEffect(() => {
     setGameCards(shuffleCards(memoryCards));
     setMoves(20);
-    setIsGameComplete(false);
   }, [isGameComplete]);
 
-  useEffect(() => {
-    checkingGameComplete();
-  }, [moves, matchedCardsCounter]);
+  // useEffect(() => {
+  //   checkingGameComplete();
+  // }, [moves, matchedCardsCounter]);
 
-  const checkingGameComplete = () => {
-    if (matchedCardsCounter === gameCards.length / 2) {
-      console.log("Brawo, wygrałeś!");
-      setIsGameComplete(true);
-    }
+  // const checkingGameComplete = () => {
+  //   if (matchedCardsCounter === gameCards.length / 2) {
+  //     alert("Brawo, wygrałeś!");
+  //     if (window.confirm("Spróbuj ponownie!")) {
+  //       setIsGameComplete(true);
+  //     }
+  //   }
 
-    if (moves === 0) {
-      console.log("Przegrałeś!");
-      setIsGameComplete(true);
-    }
-  };
+  //   if (moves <= 1) {
+  //     alert("Przegrałeś!");
+  //     if (window.confirm("Spróbuj ponownie!")) {
+  //       setIsGameComplete(true);
+  //     }
+  //   }
+  // };
 
   useEffect(() => {
     if (firstSelectedCard && secondSelectedCard) {
@@ -95,7 +98,7 @@ export default function BoardGame() {
     <div>
       <div className="w-full h-10 mb-10 flex justify-between text-white font-pirata text-3xl">
         <div>
-          Moves:{" "}
+          Moves:
           <span
             className={`${
               moves > 5 ? "text-amber-500" : "text-red-600 animate-pulse"
