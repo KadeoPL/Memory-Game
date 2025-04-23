@@ -7,9 +7,13 @@ export default function WelcomeScreen() {
       <h1 className="w-1/2 text-center text-white font-pirata text-5xl md:text-6xl mb-8 drop-shadow-2xl">
         Enter the Shadow of Memory
       </h1>
+<<<<<<< HEAD:src/routes/WelcomeScreen.tsx
       <Link to="/select-level">
         <Button text="Play now" animationPulse={true} />
       </Link>
+=======
+      <Button onClick={() => onButtonClick("level")} text="Play now" />
+>>>>>>> fd8523c98e81f6afa289494f49fc25527607aad9:src/views/WelcomeScreen.tsx
     </div>
   );
 }

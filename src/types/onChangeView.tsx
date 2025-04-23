@@ -1,4 +1,4 @@
-export type ViewType = "menu" | "game";
+export type ViewType = "menu" | "game" | "level";
 
 export type OnChangeViewFunction = (newView: ViewType) => void;
 
