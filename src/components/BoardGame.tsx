@@ -18,6 +18,12 @@ export default function BoardGame() {
     setGameState(initializeGame(state.moves));
   }, [state.moves]);
 
+  const handleClick = () => {
+    console.log("klik");
+    setGameState(initializeGame(state.moves));
+    console.log(gameState);
+  };
+
   return (
     <div>
       <div className="w-full h-10 mb-10 flex justify-between text-white font-pirata text-3xl">
@@ -32,6 +38,19 @@ export default function BoardGame() {
           >
             {gameState.moves}
           </span>
+        </div>
+        <div>
+          <div>
+            <button className="cursor-pointer active:scale-110 transition-transform duration-500"></button>
+            <button
+              className="cursor-pointer active:scale-110 transition-transform duration-500"
+              onClick={() => {
+                handleClick();
+              }}
+            >
+              Restart
+            </button>
+          </div>
         </div>
       </div>
       <div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
