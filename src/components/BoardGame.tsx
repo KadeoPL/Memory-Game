@@ -6,6 +6,7 @@ import initializeGame from "../utils/initializeGame";
 import { Link } from "react-router";
 import { CardProps } from "../types/CardProps";
 import { checkingCard } from "../utils/checkingCards";
+import updateCards from "../utils/updateCards";
 
 export default function BoardGame() {
   const location = useLocation();
@@ -18,43 +19,55 @@ export default function BoardGame() {
   });
   const [firstCard, setFirstCard] = useState<CardProps | null>(null);
   const [secondCard, setSecondCard] = useState<CardProps | null>(null);
+  const [isGameOver, setIsGamerOver] = useState<boolean>(false);
 
   useEffect(() => {
     setGameState(initializeGame(state.moves));
   }, [state.moves]);
 
   useEffect(() => {
+    if (gameState.moves === 0 && gameState.matchedPairs > 0) {
+      alert("Lose");
+      setIsGamerOver(true);
+      console.log(isGameOver);
+    } else if (gameState.matchedPairs === 0) {
+      alert("Win");
+      setIsGamerOver(true);
+      console.log(isGameOver);
+    }
+  }, [gameState.moves, gameState.matchedPairs]);
+
+  useEffect(() => {
     if (firstCard && secondCard) {
-      setGameState({ ...gameState, moves: gameState.moves - 1 });
+      setGameState((prevState) => {
+        const newState = { ...prevState, moves: prevState.moves - 1 };
+
+        if (checkingCard(firstCard, secondCard)) {
+          return {
+            ...newState,
+            cards: updateCards([firstCard, secondCard], "matched", gameState),
+            matchedPairs: gameState.matchedPairs - 1,
+          };
+        } else {
+          setTimeout(() => {
+            setGameState((latestState) => ({
+              ...latestState,
+              cards: updateCards([firstCard, secondCard], "reset", gameState),
+            }));
+            setFirstCard(null);
+            setSecondCard(null);
+          }, 1000);
+
+          return newState;
+        }
+      });
 
       if (checkingCard(firstCard, secondCard)) {
-        const updatedCards = updateMatchedCards([firstCard, secondCard]);
-        setGameState({ ...gameState, cards: updatedCards });
         setFirstCard(null);
         setSecondCard(null);
-      } else {
-        const updatedCards = resetFlipedCard([firstCard, secondCard]);
-        const timer = setTimeout(() => {
-          setGameState({ ...gameState, cards: updatedCards });
-          setFirstCard(null);
-          setSecondCard(null);
-        }, 1000);
-
-        return () => clearTimeout(timer);
       }
     }
   }, [firstCard, secondCard]);
-
-  const updateMatchedCards = (matchedCards: CardProps[]) => {
-    const updatedCards = gameState.cards.map((card) => {
-      if (matchedCards.some((matchedCard) => matchedCard.id === card.id)) {
-        return { ...card, isMatched: true };
-      }
-      return card;
-    });
-
-    return updatedCards;
-  };
 
   const handleRestartClick = () => {
     setGameState(initializeGame(state.moves));
@@ -62,43 +75,16 @@ export default function BoardGame() {
     setSecondCard(null);
   };
 
-  const updateFlipedCard = (flippedCards: CardProps[]) => {
-    const updatedCards = gameState.cards.map((card) => {
-      if (flippedCards.some((flippedCard) => flippedCard.id === card.id)) {
-        return { ...card, isFlipped: !card.isFlipped };
-      }
-      return card;
-    });
-
-    return updatedCards;
-  };
-
-  const resetFlipedCard = (flippedCards: CardProps[]) => {
-    const updatedCards = gameState.cards.map((card) => {
-      if (flippedCards.some((flippedCard) => flippedCard.id === card.id)) {
-        return { ...card, isFlipped: false };
-      }
-      return card;
-    });
-
-    return updatedCards;
-  };
-
   const handleCardClick = (clickedCard: CardProps) => {
     if (clickedCard.isFlipped || clickedCard.isMatched) {
       return;
     }
 
-    if (firstCard && secondCard && !checkingCard(firstCard, secondCard)) {
-      const updatedCards = resetFlipedCard([firstCard, secondCard]);
-      setGameState({ ...gameState, cards: updatedCards });
-      setFirstCard(null);
-      setSecondCard(null);
-    }
-
     if (!firstCard || !secondCard) {
-      const updatedCards = updateFlipedCard([clickedCard]);
-      setGameState({ ...gameState, cards: updatedCards });
+      setGameState({
+        ...gameState,
+        cards: updateCards([clickedCard], "flip", gameState),
+      });
 
       firstCard ? setSecondCard(clickedCard) : setFirstCard(clickedCard);
     }
