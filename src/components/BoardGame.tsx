@@ -13,14 +13,14 @@ export default function BoardGame() {
   const state = location.state as { moves: number };
   const [gameState, setGameState] = useState<GameState>({
     cards: [],
-    matchedPairs: null,
+    pairs: null,
     moves: 0,
     isGameOver: false,
   });
   const [firstCard, setFirstCard] = useState<CardProps | null>(null);
   const [secondCard, setSecondCard] = useState<CardProps | null>(null);
   const [isGameOver, setIsGamerOver] = useState<boolean>(false);
-  const [pairs, setPairs] = useState<number>(0);
+  const [matchedPairs, setMatchedPairs] = useState<number>(0);
 
   useEffect(() => {
     setGameState(initializeGame(state.moves));
@@ -29,16 +29,16 @@ export default function BoardGame() {
   useEffect(() => {
     if (
       gameState.moves === 0 &&
-      gameState.matchedPairs != pairs &&
-      gameState.matchedPairs
+      gameState.pairs != matchedPairs &&
+      gameState.pairs
     ) {
       alert("Lose");
       setIsGamerOver(true);
-    } else if (gameState.matchedPairs === pairs) {
+    } else if (gameState.pairs === matchedPairs) {
       alert("Win");
       setIsGamerOver(true);
     }
-  }, [gameState.moves, pairs]);
+  }, [gameState.moves, matchedPairs]);
 
   useEffect(() => {
     if (firstCard && secondCard) {
@@ -46,7 +46,7 @@ export default function BoardGame() {
         const newState = { ...prevState, moves: prevState.moves - 1 };
 
         if (checkingCard(firstCard, secondCard)) {
-          setPairs(pairs + 1);
+          setMatchedPairs(matchedPairs + 1);
           return {
             ...newState,
             cards: updateCards([firstCard, secondCard], "matched", gameState),
@@ -94,8 +94,8 @@ export default function BoardGame() {
   };
 
   return (
-    <div>
-      <div className="w-full h-10 mb-10 flex justify-between text-white font-pirata text-3xl">
+    <div className="mx-5">
+      <div className="w-full h-10 mb-5 flex justify-between text-white font-pirata text-3xl">
         <div>
           Moves:
           <span
@@ -110,7 +110,7 @@ export default function BoardGame() {
         </div>
         <div>
           <div>
-            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-5 text-xl hover:text-amber-400">
+            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 text-xl hover:text-amber-400">
               <Link to={"/select-level"}>Change difficulty</Link>
             </button>
             <button
@@ -124,7 +124,7 @@ export default function BoardGame() {
           </div>
         </div>
       </div>
-      <div className={`grid grid-cols-6 grid-rows-3 gap-5`}>
+      <div className={`grid lg:grid-cols-6 lg:gap-5 grid-cols-4 gap-2`}>
         {gameState.cards.map((card, index) => (
           <div
             key={index}

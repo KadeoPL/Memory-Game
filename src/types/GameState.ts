@@ -1,7 +1,7 @@
 import { CardProps } from "./CardProps";
 export interface GameState {
   cards: CardProps[];
-  matchedPairs: number | null;
+  pairs: number | null;
   moves: number;
   isGameOver: boolean;
 }
