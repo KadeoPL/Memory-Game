@@ -13,29 +13,32 @@ export default function BoardGame() {
   const state = location.state as { moves: number };
   const [gameState, setGameState] = useState<GameState>({
     cards: [],
-    matchedPairs: 0,
+    matchedPairs: null,
     moves: 0,
     isGameOver: false,
   });
   const [firstCard, setFirstCard] = useState<CardProps | null>(null);
   const [secondCard, setSecondCard] = useState<CardProps | null>(null);
   const [isGameOver, setIsGamerOver] = useState<boolean>(false);
+  const [pairs, setPairs] = useState<number>(0);
 
   useEffect(() => {
     setGameState(initializeGame(state.moves));
   }, [state.moves]);
 
   useEffect(() => {
-    if (gameState.moves === 0 && gameState.matchedPairs > 0) {
+    if (
+      gameState.moves === 0 &&
+      gameState.matchedPairs != pairs &&
+      gameState.matchedPairs
+    ) {
       alert("Lose");
       setIsGamerOver(true);
-      console.log(isGameOver);
-    } else if (gameState.matchedPairs === 0) {
+    } else if (gameState.matchedPairs === pairs) {
       alert("Win");
       setIsGamerOver(true);
-      console.log(isGameOver);
     }
-  }, [gameState.moves, gameState.matchedPairs]);
+  }, [gameState.moves, pairs]);
 
   useEffect(() => {
     if (firstCard && secondCard) {
@@ -43,10 +46,10 @@ export default function BoardGame() {
         const newState = { ...prevState, moves: prevState.moves - 1 };
 
         if (checkingCard(firstCard, secondCard)) {
+          setPairs(pairs + 1);
           return {
             ...newState,
             cards: updateCards([firstCard, secondCard], "matched", gameState),
-            matchedPairs: gameState.matchedPairs - 1,
           };
         } else {
           setTimeout(() => {
@@ -76,7 +79,7 @@ export default function BoardGame() {
   };
 
   const handleCardClick = (clickedCard: CardProps) => {
-    if (clickedCard.isFlipped || clickedCard.isMatched) {
+    if (clickedCard.isFlipped || clickedCard.isMatched || isGameOver) {
       return;
     }
 
