@@ -26,14 +26,62 @@ export default function BoardGame() {
   useEffect(() => {
     if (firstCard && secondCard) {
       setGameState({ ...gameState, moves: gameState.moves - 1 });
-      checkingCard(firstCard, secondCard);
+
+      if (checkingCard(firstCard, secondCard)) {
+        const updatedCards = updateMatchedCards([firstCard, secondCard]);
+        setGameState({ ...gameState, cards: updatedCards });
+        setFirstCard(null);
+        setSecondCard(null);
+      } else {
+        const updatedCards = resetFlipedCard([firstCard, secondCard]);
+        const timer = setTimeout(() => {
+          setGameState({ ...gameState, cards: updatedCards });
+          setFirstCard(null);
+          setSecondCard(null);
+        }, 1000);
+
+        return () => clearTimeout(timer);
+      }
     }
   }, [firstCard, secondCard]);
 
+  const updateMatchedCards = (matchedCards: CardProps[]) => {
+    const updatedCards = gameState.cards.map((card) => {
+      if (matchedCards.some((matchedCard) => matchedCard.id === card.id)) {
+        return { ...card, isMatched: true };
+      }
+      return card;
+    });
+
+    return updatedCards;
+  };
+
   const handleRestartClick = () => {
-    console.log("klik");
     setGameState(initializeGame(state.moves));
-    console.log(gameState);
+    setFirstCard(null);
+    setSecondCard(null);
+  };
+
+  const updateFlipedCard = (flippedCards: CardProps[]) => {
+    const updatedCards = gameState.cards.map((card) => {
+      if (flippedCards.some((flippedCard) => flippedCard.id === card.id)) {
+        return { ...card, isFlipped: !card.isFlipped };
+      }
+      return card;
+    });
+
+    return updatedCards;
+  };
+
+  const resetFlipedCard = (flippedCards: CardProps[]) => {
+    const updatedCards = gameState.cards.map((card) => {
+      if (flippedCards.some((flippedCard) => flippedCard.id === card.id)) {
+        return { ...card, isFlipped: false };
+      }
+      return card;
+    });
+
+    return updatedCards;
   };
 
   const handleCardClick = (clickedCard: CardProps) => {
@@ -41,17 +89,18 @@ export default function BoardGame() {
       return;
     }
 
+    if (firstCard && secondCard && !checkingCard(firstCard, secondCard)) {
+      const updatedCards = resetFlipedCard([firstCard, secondCard]);
+      setGameState({ ...gameState, cards: updatedCards });
+      setFirstCard(null);
+      setSecondCard(null);
+    }
+
     if (!firstCard || !secondCard) {
-      const updatedCards = gameState.cards.map((card) => {
-        if (card.id === clickedCard.id) {
-          return { ...card, isFlipped: true };
-        }
-        return card;
-      });
+      const updatedCards = updateFlipedCard([clickedCard]);
+      setGameState({ ...gameState, cards: updatedCards });
 
       firstCard ? setSecondCard(clickedCard) : setFirstCard(clickedCard);
-
-      setGameState({ ...gameState, cards: updatedCards });
     }
   };
 
@@ -65,7 +114,7 @@ export default function BoardGame() {
               gameState.moves > 5
                 ? "text-amber-500"
                 : "text-red-600 animate-pulse"
-            }`}
+            } ml-2`}
           >
             {gameState.moves}
           </span>
