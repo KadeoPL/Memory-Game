@@ -3,6 +3,9 @@ import { useEffect, useState } from "react";
 import { GameState } from "../types/GameState";
 import { useLocation } from "react-router";
 import initializeGame from "../utils/initializeGame";
+import { Link } from "react-router";
+import { CardProps } from "../types/CardProps";
+import { checkingCard } from "../utils/checkingCards";
 
 export default function BoardGame() {
   const location = useLocation();
@@ -13,15 +16,43 @@ export default function BoardGame() {
     moves: 0,
     isGameOver: false,
   });
+  const [firstCard, setFirstCard] = useState<CardProps | null>(null);
+  const [secondCard, setSecondCard] = useState<CardProps | null>(null);
 
   useEffect(() => {
     setGameState(initializeGame(state.moves));
   }, [state.moves]);
 
-  const handleClick = () => {
+  useEffect(() => {
+    if (firstCard && secondCard) {
+      setGameState({ ...gameState, moves: gameState.moves - 1 });
+      checkingCard(firstCard, secondCard);
+    }
+  }, [firstCard, secondCard]);
+
+  const handleRestartClick = () => {
     console.log("klik");
     setGameState(initializeGame(state.moves));
     console.log(gameState);
+  };
+
+  const handleCardClick = (clickedCard: CardProps) => {
+    if (clickedCard.isFlipped || clickedCard.isMatched) {
+      return;
+    }
+
+    if (!firstCard || !secondCard) {
+      const updatedCards = gameState.cards.map((card) => {
+        if (card.id === clickedCard.id) {
+          return { ...card, isFlipped: true };
+        }
+        return card;
+      });
+
+      firstCard ? setSecondCard(clickedCard) : setFirstCard(clickedCard);
+
+      setGameState({ ...gameState, cards: updatedCards });
+    }
   };
 
   return (
@@ -41,11 +72,13 @@ export default function BoardGame() {
         </div>
         <div>
           <div>
-            <button className="cursor-pointer active:scale-110 transition-transform duration-500"></button>
+            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-5 text-xl hover:text-amber-400">
+              <Link to={"/select-level"}>Change difficulty</Link>
+            </button>
             <button
-              className="cursor-pointer active:scale-110 transition-transform duration-500"
+              className="cursor-pointer active:scale-110 transition-all duration-500 text-xl hover:text-amber-400"
               onClick={() => {
-                handleClick();
+                handleRestartClick();
               }}
             >
               Restart
@@ -57,9 +90,9 @@ export default function BoardGame() {
         {gameState.cards.map((card, index) => (
           <div
             key={index}
-            // onClick={() => {
-            //   handleCardClick(card);
-            // }}
+            onClick={() => {
+              handleCardClick(card);
+            }}
           >
             <Card
               id={card.id}
