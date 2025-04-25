@@ -1,5 +1,9 @@
 export interface ResultProps {
   id: number;
   name: string;
-  results: number;
+  result: number;
 }
+
+export type LeaderboardProps = {
+  results: ResultProps[];
+};

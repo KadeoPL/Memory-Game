@@ -5,7 +5,7 @@ import "./index.css";
 import WelcomeScreen from "./routes/WelcomeScreen";
 import GameScreen from "./routes/GameScreen";
 import SelectLevel from "./routes/SelectLevel";
-import Leaderboard from "./routes/Leaderboard";
+import LeaderboardScreen from "./routes/LeaderboardScreen";
 
 const router = createBrowserRouter([
   {
@@ -22,7 +22,7 @@ const router = createBrowserRouter([
   },
   {
     path: "/leaderboard",
-    element: <Leaderboard />,
+    element: <LeaderboardScreen />,
   },
 ]);
 

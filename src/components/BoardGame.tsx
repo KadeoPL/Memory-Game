@@ -112,6 +112,9 @@ export default function BoardGame() {
         <div>
           <div>
             <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 text-xl hover:text-amber-400">
+              <Link to={"/"}>Home</Link>
+            </button>
+            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 text-xl hover:text-amber-400">
               <Link to={"/select-level"}>Change difficulty</Link>
             </button>
             <button

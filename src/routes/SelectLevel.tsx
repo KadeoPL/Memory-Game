@@ -1,5 +1,7 @@
 import PrimaryButton from "../components/PrimaryButton";
 import { Link } from "react-router";
+import { difficultyLevels } from "../utils/difficultyLevels";
+
 export default function SelectLevel() {
   return (
     <div className="bg-[url(/public/home_bg.png)] bg-cover bg-top bg-no-repeat w-dvw h-dvh flex flex-col justify-center items-center">
@@ -9,15 +11,11 @@ export default function SelectLevel() {
         </h1>
       </div>
       <div className="flex flex-col gap-16 items-center">
-        <Link to="/game" state={{ moves: "40" }}>
-          <PrimaryButton text="Easy" animationPulse={false} />
-        </Link>
-        <Link to="/game" state={{ moves: "30" }}>
-          <PrimaryButton text="Medium" animationPulse={false} />
-        </Link>
-        <Link to="/game" state={{ moves: "20" }}>
-          <PrimaryButton text="Hard" animationPulse={false} />
-        </Link>
+        {difficultyLevels.map((level, index) => (
+          <Link key={index} to="/game" state={{ moves: level.moves }}>
+            <PrimaryButton text={level.text} animationPulse={false} />
+          </Link>
+        ))}
       </div>
     </div>
   );

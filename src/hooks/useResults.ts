@@ -2,21 +2,28 @@ import { useEffect, useState } from "react";
 import { ResultProps } from "../types/ResultProps";
 import { supabase } from "../lib/supabaseClient";
 
-export default function getResults(level: string) {
+export function useResults(level: string) {
   const [results, setResults] = useState<ResultProps[]>([]);
+  const [loading, setLoading] = useState(true);
 
   useEffect(() => {
     const fetchResults = async () => {
+      setLoading(true);
       const { data, error } = await supabase
         .from(`leaderboard-${level}`)
         .select("*")
-        .order("results", { ascending: false });
+        .order("result", { ascending: false });
 
-      error ? console.error(error) : setResults(data);
+      if (error) {
+        console.error(error);
+      } else {
+        setResults(data || []);
+      }
+      setLoading(false);
     };
 
     fetchResults();
-  }, []);
+  }, [level]);
 
-  return results;
+  return { results, loading };
 }
