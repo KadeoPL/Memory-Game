@@ -77,6 +77,7 @@ export default function BoardGame() {
     setFirstCard(null);
     setSecondCard(null);
     setIsGamerOver(false);
+    setMatchedPairs(0);
   };
 
   const handleCardClick = (clickedCard: CardProps) => {
