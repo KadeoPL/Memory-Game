@@ -1,6 +1,6 @@
 import { ButtonProps } from "../types/ButtonProps";
 
-export default function Button({ text, animationPulse }: ButtonProps) {
+export default function PrimaryButton({ text, animationPulse }: ButtonProps) {
   return (
     <button
       className={`start-button font-pirata uppercase text-2xl ${

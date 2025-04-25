@@ -5,6 +5,7 @@ import "./index.css";
 import WelcomeScreen from "./routes/WelcomeScreen";
 import GameScreen from "./routes/GameScreen";
 import SelectLevel from "./routes/SelectLevel";
+import Leaderboard from "./routes/Leaderboard";
 
 const router = createBrowserRouter([
   {
@@ -18,6 +19,10 @@ const router = createBrowserRouter([
   {
     path: "/select-level",
     element: <SelectLevel />,
+  },
+  {
+    path: "/leaderboard",
+    element: <Leaderboard />,
   },
 ]);
 

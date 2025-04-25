@@ -1,4 +1,4 @@
-import Button from "../components/Button";
+import PrimaryButton from "../components/PrimaryButton";
 import { Link } from "react-router";
 export default function SelectLevel() {
   return (
@@ -9,14 +9,14 @@ export default function SelectLevel() {
         </h1>
       </div>
       <div className="flex flex-col gap-16 items-center">
-        <Link to="/game" state={{ moves: "60" }}>
-          <Button text="Easy" animationPulse={false} />
-        </Link>
         <Link to="/game" state={{ moves: "40" }}>
-          <Button text="Medium" animationPulse={false} />
+          <PrimaryButton text="Easy" animationPulse={false} />
+        </Link>
+        <Link to="/game" state={{ moves: "30" }}>
+          <PrimaryButton text="Medium" animationPulse={false} />
         </Link>
         <Link to="/game" state={{ moves: "20" }}>
-          <Button text="Hard" animationPulse={false} />
+          <PrimaryButton text="Hard" animationPulse={false} />
         </Link>
       </div>
     </div>

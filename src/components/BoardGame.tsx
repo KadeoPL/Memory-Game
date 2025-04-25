@@ -76,6 +76,7 @@ export default function BoardGame() {
     setGameState(initializeGame(state.moves));
     setFirstCard(null);
     setSecondCard(null);
+    setIsGamerOver(false);
   };
 
   const handleCardClick = (clickedCard: CardProps) => {
@@ -124,7 +125,7 @@ export default function BoardGame() {
           </div>
         </div>
       </div>
-      <div className={`grid lg:grid-cols-6 lg:gap-5 grid-cols-4 gap-2`}>
+      <div className={`grid md:grid-cols-6 lg:gap-5 grid-cols-4 gap-2`}>
         {gameState.cards.map((card, index) => (
           <div
             key={index}
