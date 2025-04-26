@@ -1,6 +1,8 @@
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import countPoints from "../utils/countPoints";
+import verticalBG from "../assets/memory_popup_bg_700x1200.png";
+import horizontalBG from "../assets/memory_popup_bg_1200x800.png";
 
 interface PopupProps {
   isWin: boolean | null;
@@ -42,10 +44,19 @@ export default function Popup({
   return (
     <div className="absolute z-10 top-0 left-0">
       <div className="bg-black/60 bg-cover w-svw h-svh flex justify-center items-center">
-        <div className="w-[80%] h-[400px] lg:w-[600px] z-10 bg-black border-2 border-amber-100 flex flex-col items-center justify-center text-amber-100 font-grenze">
-          <div className="mb-10">{isWin ? "You Win" : "You lose"}</div>
-          <div>
-            <h1>Your points: {score}</h1>
+        <div
+          className="w-[80%] h-[400px] lg:w-[700px] z-10 bg-center bg-cover flex flex-col items-center justify-center text-amber-100 font-grenze"
+          style={{
+            backgroundImage: `url(${
+              window.innerWidth >= 1024 ? horizontalBG : verticalBG
+            })`,
+          }}
+        >
+          <div className="mb-5 text-5xl">{isWin ? "You Win" : "You lose"}</div>
+          <div className="mb-5">
+            <h1 className="text-2xl">
+              Your points: <span className="font-bold">{score}</span>
+            </h1>
           </div>
           {isWin ? (
             <div className="flex flex-col items-center">
@@ -69,7 +80,7 @@ export default function Popup({
           ) : (
             ""
           )}
-          <div className="flex flex-col gap-5 mt-10 ">
+          <div className="flex flex-row gap-5 mt-10 ">
             <button
               className="cursor-pointer hover:text-amber-400"
               onClick={onRestartClick}
