@@ -20,7 +20,7 @@ export default function BoardGame() {
   });
   const [firstCard, setFirstCard] = useState<CardProps | null>(null);
   const [secondCard, setSecondCard] = useState<CardProps | null>(null);
-  const [isGameOver, setIsGamerOver] = useState<boolean>(true);
+  const [isGameOver, setIsGamerOver] = useState<boolean>(false);
   const [isWin, setIsWin] = useState<boolean | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<number>(0);
 
@@ -99,29 +99,29 @@ export default function BoardGame() {
 
   return (
     <div className="mx-5">
-      <div className="w-full h-10 mb-5 flex justify-between items-center text-white font-pirata text-2xl bg-[#2c2513]/80 bg-opacity-5 px-5 py-5">
-        <div>
+      <div className="w-full h-10 mb-5 flex justify-between items-center text-white font-grenze text-2xl px-5 py-5">
+        <div className="font-pirata">
           Moves:
           <span
             className={`${
               gameState.moves > 5
                 ? "text-amber-500"
                 : "text-red-600 animate-pulse"
-            } ml-2`}
+            } ml-2 `}
           >
             {gameState.moves}
           </span>
         </div>
         <div>
-          <div className="flex flex-row items-center">
-            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 text-xl hover:text-amber-400">
+          <div className="flex flex-row items-center text-base">
+            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 drop-shadow-2xl  hover:text-amber-400">
               <Link to={"/"}>Home</Link>
             </button>
-            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 text-xl hover:text-amber-400">
+            <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 drop-shadow-2xl  hover:text-amber-400">
               <Link to={"/select-level"}>Change difficulty</Link>
             </button>
             <button
-              className="cursor-pointer active:scale-110 transition-all duration-500 text-xl hover:text-amber-400"
+              className="cursor-pointer active:scale-110 transition-all duration-500 drop-shadow-2xl  hover:text-amber-400"
               onClick={() => {
                 handleRestartClick();
               }}

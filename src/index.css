@@ -1,8 +1,10 @@
 @import url("https://fonts.googleapis.com/css2?family=Pirata+One&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Grenze:ital,wght@0,100;0,200;0,300;0,400;0,500;0,600;0,700;0,800;0,900;1,100;1,200;1,300;1,400;1,500;1,600;1,700;1,800;1,900&display=swap");
 @import "tailwindcss";
 
 @theme {
   --font-pirata: "Pirata One", sans-serif;
+  --font-grenze: "Grenze", sans-serif;
   --animate-flip: flip 1s ease-in-out;
   --animate-flip-back: flip-back 1s ease-in-out;
 
@@ -25,7 +27,7 @@
   }
 }
 
-.start-button {
+.primary-button {
   position: relative;
   display: inline-block;
   padding: 6px 22px;
@@ -35,7 +37,7 @@
   z-index: 1;
 }
 
-.start-button::before {
+.primary-button::before {
   content: "";
   position: absolute;
   top: -8px;
@@ -47,7 +49,7 @@
   z-index: -2;
 }
 
-.start-button::after {
+.primary-button::after {
   content: "";
   position: absolute;
   top: -20px;
@@ -61,7 +63,48 @@
   pointer-events: none;
 }
 
-.start-button:hover::before {
+.primary-button:hover::before {
+  background-color: rgba(255, 255, 255, 0.5);
+  background-blend-mode: luminosity;
+}
+
+.secondary-button {
+  position: relative;
+  display: inline-block;
+  padding: 3px 11px;
+  cursor: pointer;
+  background: transparent;
+  border: none;
+  z-index: 1;
+}
+
+.secondary-button::before {
+  content: "";
+  position: absolute;
+  top: -8px;
+  left: -13px;
+  right: -13px;
+  bottom: -8px;
+  background-image: url("../public/button-bg.png");
+  background-size: cover;
+  z-index: -2;
+}
+
+.secondary-button::after {
+  content: "";
+  position: absolute;
+  top: -20px;
+  left: -20px;
+  right: -20px;
+  bottom: -20px;
+  background-image: url("../public/button_dark.png");
+  background-size: 100% 100%;
+  background-repeat: no-repeat;
+  z-index: -1;
+  pointer-events: none;
+}
+
+.secondary-button:hover::before {
   background-color: rgba(255, 255, 255, 0.5);
   background-blend-mode: luminosity;
 }

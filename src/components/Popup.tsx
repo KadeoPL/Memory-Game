@@ -29,7 +29,7 @@ export default function Popup({ isWin, onRestartClick }: PopupProps) {
   return (
     <div className="absolute z-10 top-0 left-0">
       <div className="bg-black/60 bg-cover w-svw h-svh flex justify-center items-center">
-        <div className="w-[80%] h-[400px] lg:w-[600px] lg:h-90 z-10 bg-black border-2 border-amber-100 flex flex-col items-center justify-center text-amber-100 font-pirata">
+        <div className="w-[80%] h-[400px] lg:w-[600px] z-10 bg-black border-2 border-amber-100 flex flex-col items-center justify-center text-amber-100 font-grenze">
           <div className="mb-10">{isWin ? "You Win" : "You lose"}</div>
           {isWin ? (
             <div className="flex flex-col items-center">
@@ -53,14 +53,17 @@ export default function Popup({ isWin, onRestartClick }: PopupProps) {
           ) : (
             ""
           )}
-          <div className="flex flex-col gap-5 mt-10">
-            <button className="cursor-pointer" onClick={onRestartClick}>
+          <div className="flex flex-col gap-5 mt-10 ">
+            <button
+              className="cursor-pointer hover:text-amber-400"
+              onClick={onRestartClick}
+            >
               Restart game
             </button>
-            <button>
+            <button className="hover:text-amber-400">
               <Link to="/select-level">Change difficulty</Link>
             </button>
-            <button>
+            <button className="hover:text-amber-400">
               <Link to="/leaderboard">Leaderboard</Link>
             </button>
           </div>
