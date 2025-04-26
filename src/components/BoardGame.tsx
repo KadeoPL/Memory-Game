@@ -7,6 +7,7 @@ import { Link } from "react-router";
 import { CardProps } from "../types/CardProps";
 import { checkingCard } from "../utils/checkingCards";
 import updateCards from "../utils/updateCards";
+import Popup from "./Popup";
 
 export default function BoardGame() {
   const location = useLocation();
@@ -19,7 +20,8 @@ export default function BoardGame() {
   });
   const [firstCard, setFirstCard] = useState<CardProps | null>(null);
   const [secondCard, setSecondCard] = useState<CardProps | null>(null);
-  const [isGameOver, setIsGamerOver] = useState<boolean>(false);
+  const [isGameOver, setIsGamerOver] = useState<boolean>(true);
+  const [isWin, setIsWin] = useState<boolean | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<number>(0);
 
   useEffect(() => {
@@ -32,10 +34,10 @@ export default function BoardGame() {
       gameState.pairs != matchedPairs &&
       gameState.pairs
     ) {
-      alert("Lose");
+      setIsWin(false);
       setIsGamerOver(true);
     } else if (gameState.pairs === matchedPairs) {
-      alert("Win");
+      setIsWin(true);
       setIsGamerOver(true);
     }
   }, [gameState.moves, matchedPairs]);
@@ -97,7 +99,7 @@ export default function BoardGame() {
 
   return (
     <div className="mx-5">
-      <div className="w-full h-10 mb-5 flex justify-between text-white font-pirata text-3xl">
+      <div className="w-full h-10 mb-5 flex justify-between items-center text-white font-pirata text-2xl bg-[#2c2513]/80 bg-opacity-5 px-5 py-5">
         <div>
           Moves:
           <span
@@ -111,7 +113,7 @@ export default function BoardGame() {
           </span>
         </div>
         <div>
-          <div>
+          <div className="flex flex-row items-center">
             <button className="cursor-pointer active:scale-110 transition-all duration-500 mr-2 lg:mr-5 text-xl hover:text-amber-400">
               <Link to={"/"}>Home</Link>
             </button>
@@ -147,6 +149,11 @@ export default function BoardGame() {
           </div>
         ))}
       </div>
+      {isGameOver ? (
+        <Popup isWin={isWin} onRestartClick={handleRestartClick} />
+      ) : (
+        ""
+      )}
     </div>
   );
 }
