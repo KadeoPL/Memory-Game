@@ -11,12 +11,13 @@ import Popup from "./Popup";
 
 export default function BoardGame() {
   const location = useLocation();
-  const state = location.state as { moves: number };
+  const state = location.state as { moves: number; difficulty: string };
   const [gameState, setGameState] = useState<GameState>({
     cards: [],
     pairs: null,
     moves: 0,
     isGameOver: false,
+    difficulty: "",
   });
   const [firstCard, setFirstCard] = useState<CardProps | null>(null);
   const [secondCard, setSecondCard] = useState<CardProps | null>(null);
@@ -25,7 +26,7 @@ export default function BoardGame() {
   const [matchedPairs, setMatchedPairs] = useState<number>(0);
 
   useEffect(() => {
-    setGameState(initializeGame(state.moves));
+    setGameState(initializeGame(state.moves, state.difficulty));
   }, [state.moves]);
 
   useEffect(() => {
@@ -75,7 +76,7 @@ export default function BoardGame() {
   }, [firstCard, secondCard]);
 
   const handleRestartClick = () => {
-    setGameState(initializeGame(state.moves));
+    setGameState(initializeGame(state.moves, state.difficulty));
     setFirstCard(null);
     setSecondCard(null);
     setIsGamerOver(false);
@@ -150,7 +151,12 @@ export default function BoardGame() {
         ))}
       </div>
       {isGameOver ? (
-        <Popup isWin={isWin} onRestartClick={handleRestartClick} />
+        <Popup
+          isWin={isWin}
+          onRestartClick={handleRestartClick}
+          moves={gameState.moves}
+          difficulty={gameState.difficulty}
+        />
       ) : (
         ""
       )}

@@ -12,7 +12,11 @@ export default function SelectLevel() {
       </div>
       <div className="flex flex-col gap-16 items-center">
         {difficultyLevels.map((level, index) => (
-          <Link key={index} to="/game" state={{ moves: level.moves }}>
+          <Link
+            key={index}
+            to="/game"
+            state={{ moves: level.moves, difficulty: level.name }}
+          >
             <PrimaryButton text={level.text} animationPulse={false} />
           </Link>
         ))}

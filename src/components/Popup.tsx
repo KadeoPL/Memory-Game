@@ -1,14 +1,28 @@
 import { Link } from "react-router";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import countPoints from "../utils/countPoints";
 
 interface PopupProps {
   isWin: boolean | null;
   onRestartClick: () => void;
+  moves: number;
+  difficulty: string;
 }
 
-export default function Popup({ isWin, onRestartClick }: PopupProps) {
+export default function Popup({
+  isWin,
+  onRestartClick,
+  moves,
+  difficulty,
+}: PopupProps) {
   const [playerName, setPlayerName] = useState<string>("");
   const [alert, setAlert] = useState<string>("");
+  const [score, setScore] = useState<number>(0);
+
+  useEffect(() => {
+    const calculatedScore = countPoints(moves, difficulty);
+    setScore(calculatedScore);
+  }, [moves]);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -16,7 +30,6 @@ export default function Popup({ isWin, onRestartClick }: PopupProps) {
     if (!playerName.trim()) {
       setAlert("Please enter your name!");
     }
-    console.log(playerName);
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -31,6 +44,9 @@ export default function Popup({ isWin, onRestartClick }: PopupProps) {
       <div className="bg-black/60 bg-cover w-svw h-svh flex justify-center items-center">
         <div className="w-[80%] h-[400px] lg:w-[600px] z-10 bg-black border-2 border-amber-100 flex flex-col items-center justify-center text-amber-100 font-grenze">
           <div className="mb-10">{isWin ? "You Win" : "You lose"}</div>
+          <div>
+            <h1>Your points: {score}</h1>
+          </div>
           {isWin ? (
             <div className="flex flex-col items-center">
               <h2 className="mb-5">Save your score in the Leaderboard!</h2>

@@ -4,4 +4,5 @@ export interface GameState {
   pairs: number | null;
   moves: number;
   isGameOver: boolean;
+  difficulty: string;
 }
