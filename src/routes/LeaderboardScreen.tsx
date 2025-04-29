@@ -32,7 +32,7 @@ export default function LeaderboardScreen() {
       </div>
 
       {loading ? (
-        <div className="text-white text-2xl">Ładowanie wyników...</div>
+        <div className="text-white text-2xl">Loading...</div>
       ) : (
         <Leaderboard results={results} />
       )}

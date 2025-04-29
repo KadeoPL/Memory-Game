@@ -11,6 +11,7 @@ interface PopupProps {
   onRestartClick: () => void;
   moves: number;
   difficulty: string;
+  remainingTime: number;
 }
 
 export default function Popup({
@@ -18,15 +19,16 @@ export default function Popup({
   onRestartClick,
   moves,
   difficulty,
+  remainingTime,
 }: PopupProps) {
   const [playerName, setPlayerName] = useState<string>("");
   const [alert, setAlert] = useState<string>("");
   const [score, setScore] = useState<number>(0);
-  const [isSaving, setIsSaving] = useState<boolean>(false);
+  const [isSaved, setIsSaved] = useState<boolean>(false);
   const { saveResult, saving, error, success } = useSaveResults(difficulty);
 
   useEffect(() => {
-    const calculatedScore = countPoints(moves, difficulty);
+    const calculatedScore = countPoints(moves, difficulty, remainingTime);
     setScore(calculatedScore);
   }, [moves]);
 
@@ -35,21 +37,25 @@ export default function Popup({
 
     if (!playerName.trim()) {
       setAlert("Please enter your name!");
-    } else if (isSaving) {
+    } else if (isSaved) {
       setAlert("Result is already saved!");
     } else {
       await saveResult(playerName, score);
-      if (success) {
-        setIsSaving(true);
-      }
+      setIsSaved(true);
     }
   };
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (isSaved) return;
     setPlayerName(e.target.value);
     if (alert) {
       setAlert("");
     }
+  };
+
+  const handleRestart = () => {
+    setIsSaved(false);
+    onRestartClick();
   };
 
   return (
@@ -89,22 +95,26 @@ export default function Popup({
                 <h2 className="mb-5 text-center">
                   Save your score in the Leaderboard!
                 </h2>
+
                 <form onSubmit={handleSubmit}>
                   <input
                     type="text"
                     onChange={handleChange}
                     placeholder="Enter your name"
                     className="px-2 py-3 border-2 border-amber-100"
+                    disabled={isSaved}
                   />
                   <button
                     className="cursor-pointer bg-amber-500 text-white ml-2 px-5 py-3"
                     type="submit"
+                    disabled={isSaved}
                   >
                     {saving ? "Saving..." : "Save"}
                   </button>
                   {error && <p> Error: {error.message}</p>}
                   {success && <p> Success!</p>}
                 </form>
+
                 {alert ? <div className="mt-2 text-red-500">{alert}</div> : ""}
               </div>
             ) : (
@@ -113,7 +123,7 @@ export default function Popup({
             <div className="flex flex-row gap-2 md:gap-5 mt-10">
               <button
                 className="cursor-pointer hover:text-amber-400"
-                onClick={onRestartClick}
+                onClick={handleRestart}
               >
                 Restart game
               </button>

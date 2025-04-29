@@ -14,7 +14,7 @@ export default function Leaderboard({ results }: LeaderboardProps) {
           </div>
         ))
       ) : (
-        <div className="text-white text-2xl">Brak wyników</div>
+        <div className="text-white text-2xl">No results</div>
       )}
     </>
   );

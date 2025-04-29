@@ -1,7 +1,11 @@
 import generateCards from "./generateCards";
 import { cardsData } from "./Cards";
 
-export default function initializeGame(moves: number, difficulty: string) {
+export default function initializeGame(
+  moves: number,
+  difficulty: string,
+  time: number
+) {
   const gameCards = generateCards(cardsData);
 
   const pairs = gameCards.length / 2;
@@ -12,6 +16,7 @@ export default function initializeGame(moves: number, difficulty: string) {
     moves: moves,
     isGameOver: false,
     difficulty: difficulty,
+    time: time,
   };
 
   return gameData;

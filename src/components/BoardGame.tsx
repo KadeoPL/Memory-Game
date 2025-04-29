@@ -11,37 +11,47 @@ import Popup from "./Popup";
 
 export default function BoardGame() {
   const location = useLocation();
-  const state = location.state as { moves: number; difficulty: string };
+  const state = location.state as {
+    moves: number;
+    difficulty: string;
+    time: number;
+  };
   const [gameState, setGameState] = useState<GameState>({
     cards: [],
     pairs: null,
     moves: 0,
     isGameOver: false,
     difficulty: "",
+    time: 0,
   });
   const [firstCard, setFirstCard] = useState<CardProps | null>(null);
   const [secondCard, setSecondCard] = useState<CardProps | null>(null);
   const [isGameOver, setIsGamerOver] = useState<boolean>(false);
   const [isWin, setIsWin] = useState<boolean | null>(null);
   const [matchedPairs, setMatchedPairs] = useState<number>(0);
+  const [timeIsRunning, setTimeIsRunning] = useState<boolean>(true);
 
   useEffect(() => {
-    setGameState(initializeGame(state.moves, state.difficulty));
+    setGameState(initializeGame(state.moves, state.difficulty, state.time));
   }, [state.moves]);
 
   useEffect(() => {
     if (
-      gameState.moves === 0 &&
-      gameState.pairs != matchedPairs &&
-      gameState.pairs
+      (gameState.moves === 0 &&
+        gameState.pairs != matchedPairs &&
+        gameState.pairs) ||
+      !timeIsRunning
     ) {
       setIsWin(false);
       setIsGamerOver(true);
+      setGameState((prevState) => ({ ...prevState, moves: 0 }));
+      setTimeIsRunning(false);
     } else if (gameState.pairs === matchedPairs) {
       setIsWin(true);
       setIsGamerOver(true);
+      setTimeIsRunning(false);
     }
-  }, [gameState.moves, matchedPairs]);
+  }, [gameState.moves, matchedPairs, gameState.time]);
 
   useEffect(() => {
     if (firstCard && secondCard) {
@@ -75,16 +85,39 @@ export default function BoardGame() {
     }
   }, [firstCard, secondCard]);
 
+  useEffect(() => {
+    if (!timeIsRunning) return;
+
+    const timerId = setInterval(() => {
+      setGameState((prevState) => {
+        if (prevState.time <= 1) {
+          clearInterval(timerId);
+          setTimeIsRunning(false);
+          return { ...prevState, time: 0 };
+        }
+        return { ...prevState, time: prevState.time - 1 };
+      });
+    }, 1000);
+
+    return () => clearInterval(timerId);
+  }, [timeIsRunning]);
+
   const handleRestartClick = () => {
-    setGameState(initializeGame(state.moves, state.difficulty));
+    setGameState(initializeGame(state.moves, state.difficulty, state.time));
     setFirstCard(null);
     setSecondCard(null);
     setIsGamerOver(false);
     setMatchedPairs(0);
+    setTimeIsRunning(true);
   };
 
   const handleCardClick = (clickedCard: CardProps) => {
-    if (clickedCard.isFlipped || clickedCard.isMatched || isGameOver) {
+    if (
+      clickedCard.isFlipped ||
+      clickedCard.isMatched ||
+      isGameOver ||
+      !timeIsRunning
+    ) {
       return;
     }
 
@@ -111,6 +144,18 @@ export default function BoardGame() {
             } ml-2 `}
           >
             {gameState.moves}
+          </span>
+        </div>
+        <div className="font-pirata">
+          Time:
+          <span
+            className={`${
+              gameState.time > 15
+                ? "text-amber-500"
+                : "text-red-600 animate-pulse"
+            } ml-2 `}
+          >
+            {gameState.time}
           </span>
         </div>
         <div>
@@ -159,6 +204,7 @@ export default function BoardGame() {
           onRestartClick={handleRestartClick}
           moves={gameState.moves}
           difficulty={gameState.difficulty}
+          remainingTime={gameState.time}
         />
       ) : (
         ""

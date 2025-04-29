@@ -17,7 +17,11 @@ export default function SelectLevel() {
           <Link
             key={index}
             to="/game"
-            state={{ moves: level.moves, difficulty: level.name }}
+            state={{
+              moves: level.moves,
+              difficulty: level.name,
+              time: level.time,
+            }}
           >
             <PrimaryButton text={level.text} animationPulse={false} />
           </Link>

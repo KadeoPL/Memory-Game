@@ -5,4 +5,5 @@ export interface GameState {
   moves: number;
   isGameOver: boolean;
   difficulty: string;
+  time: number;
 }
