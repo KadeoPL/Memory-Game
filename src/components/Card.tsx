@@ -12,7 +12,7 @@ export default function Card({ image, isFlipped, isMatched }: CardProps) {
             backgroundPosition: "center",
             opacity: isMatched ? 0.3 : 1,
           }}
-          className={`h-30 w-20 xl:h-60 xl:w-40 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in-out border-amber-500  shadow-amber-300 ${
+          className={`w-full h-full rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in-out border-amber-500  shadow-amber-300 ${
             !isMatched
               ? "cursor-pointer border-2 shadow-md"
               : "shadow-none border-0"
@@ -25,7 +25,7 @@ export default function Card({ image, isFlipped, isMatched }: CardProps) {
             backgroundSize: "cover",
             backgroundPosition: "center",
           }}
-          className={`h-30 w-20 xl:h-60 xl:w-40 rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in-out cursor-pointer `}
+          className={`w-full h-full  rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in-out cursor-pointer `}
         ></div>
       )}
     </>

@@ -99,7 +99,7 @@ export default function BoardGame() {
   };
 
   return (
-    <div className="mx-5">
+    <div className="px-5 py-5 h-full w-full max-w-[1000px]">
       <div className="w-full h-10 mb-5 flex justify-between items-center text-white font-grenze text-2xl px-5 py-5">
         <div className="font-pirata">
           Moves:
@@ -132,13 +132,16 @@ export default function BoardGame() {
           </div>
         </div>
       </div>
-      <div className={`grid md:grid-cols-6 lg:gap-5 grid-cols-4 gap-2`}>
+      <div
+        className={`w-full px-5  md:px-30 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 lg:gap-5  gap-1`}
+      >
         {gameState.cards.map((card, index) => (
           <div
             key={index}
             onClick={() => {
               handleCardClick(card);
             }}
+            className="aspect-[2/3]"
           >
             <Card
               id={card.id}
