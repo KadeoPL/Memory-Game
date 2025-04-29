@@ -22,6 +22,7 @@ export default function Popup({
   const [playerName, setPlayerName] = useState<string>("");
   const [alert, setAlert] = useState<string>("");
   const [score, setScore] = useState<number>(0);
+  const [isSaving, setIsSaving] = useState<boolean>(false);
   const { saveResult, saving, error, success } = useSaveResults(difficulty);
 
   useEffect(() => {
@@ -34,8 +35,13 @@ export default function Popup({
 
     if (!playerName.trim()) {
       setAlert("Please enter your name!");
+    } else if (isSaving) {
+      setAlert("Result is already saved!");
     } else {
       await saveResult(playerName, score);
+      if (success) {
+        setIsSaving(true);
+      }
     }
   };
 
