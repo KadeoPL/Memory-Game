@@ -4,6 +4,7 @@ import countPoints from "../utils/countPoints";
 import leftBg from "../assets/memory_popup_bg_L.png";
 import rightBg from "../assets/memory_popup_bg_R.png";
 import middleBg from "../assets/memory_popup_bg_M.png";
+import useSaveResults from "../hooks/useSaveResults";
 
 interface PopupProps {
   isWin: boolean | null;
@@ -21,17 +22,20 @@ export default function Popup({
   const [playerName, setPlayerName] = useState<string>("");
   const [alert, setAlert] = useState<string>("");
   const [score, setScore] = useState<number>(0);
+  const { saveResult, saving, error, success } = useSaveResults(difficulty);
 
   useEffect(() => {
     const calculatedScore = countPoints(moves, difficulty);
     setScore(calculatedScore);
   }, [moves]);
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
 
     if (!playerName.trim()) {
       setAlert("Please enter your name!");
+    } else {
+      await saveResult(playerName, score);
     }
   };
 
@@ -46,7 +50,6 @@ export default function Popup({
     <div className="absolute z-10 top-0 left-0">
       <div className="bg-black/60 bg-cover w-svw h-svh flex justify-center items-center ">
         <div className="w-[80%] h-[400px] max-w-[700px] z-10 relative">
-          {/* Ramka złożona z 3 divów */}
           <div
             className="absolute left-0 top-0 w-[117px] h-full bg-center bg-cover"
             style={{ backgroundImage: `url(${leftBg})` }}
@@ -91,8 +94,10 @@ export default function Popup({
                     className="cursor-pointer bg-amber-500 text-white ml-2 px-5 py-3"
                     type="submit"
                   >
-                    Save
+                    {saving ? "Saving..." : "Save"}
                   </button>
+                  {error && <p> Error: {error.message}</p>}
+                  {success && <p> Success!</p>}
                 </form>
                 {alert ? <div className="mt-2 text-red-500">{alert}</div> : ""}
               </div>
