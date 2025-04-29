@@ -12,7 +12,8 @@ export function useResults(level: string) {
       const { data, error } = await supabase
         .from(`leaderboard-${level}`)
         .select("*")
-        .order("result", { ascending: false });
+        .order("result", { ascending: false })
+        .limit(5);
 
       if (error) {
         console.error(error);
