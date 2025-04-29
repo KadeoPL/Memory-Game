@@ -99,7 +99,7 @@ export default function BoardGame() {
   };
 
   return (
-    <div className="px-5 py-5 h-full w-full max-w-[1000px]">
+    <div className="px-5 py-5 w-full max-w-[1000px]">
       <div className="w-full h-10 mb-5 flex justify-between items-center text-white font-grenze text-2xl px-5 py-5">
         <div className="font-pirata">
           Moves:
@@ -133,7 +133,7 @@ export default function BoardGame() {
         </div>
       </div>
       <div
-        className={`w-full px-5  md:px-30 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 lg:gap-5  gap-1`}
+        className={`w-full px-5 md:px-30 lg:px-0 grid grid-cols-4 sm:grid-cols-5 lg:grid-cols-6 lg:gap-5 gap-1`}
       >
         {gameState.cards.map((card, index) => (
           <div

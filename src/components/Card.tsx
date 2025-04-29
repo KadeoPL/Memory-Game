@@ -14,7 +14,7 @@ export default function Card({ image, isFlipped, isMatched }: CardProps) {
           }}
           className={`w-full h-full rounded-xl drop-shadow-2xl hover:scale-105 transition-all duration-150 ease-in-out border-amber-500  shadow-amber-300 ${
             !isMatched
-              ? "cursor-pointer border-2 shadow-md"
+              ? "cursor-pointer border-[1px] md:border-2  shadow-md"
               : "shadow-none border-0"
           } rotate-y-180`}
         ></div>

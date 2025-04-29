@@ -1,9 +1,9 @@
 import { Link } from "react-router";
 import { useEffect, useState } from "react";
 import countPoints from "../utils/countPoints";
-import leftBg from "../assets/popup_L.png";
-import rightBg from "../assets/popup_R.png";
-import middleBg from "../assets/popup_M.png";
+import leftBg from "../assets/memory_popup_bg_L.png";
+import rightBg from "../assets/memory_popup_bg_R.png";
+import middleBg from "../assets/memory_popup_bg_M.png";
 
 interface PopupProps {
   isWin: boolean | null;
@@ -44,32 +44,42 @@ export default function Popup({
 
   return (
     <div className="absolute z-10 top-0 left-0">
-      <div className="bg-black/60 bg-cover w-svw h-svh flex justify-center items-center">
+      <div className="bg-black/60 bg-cover w-svw h-svh flex justify-center items-center ">
         <div className="w-[80%] h-[400px] max-w-[700px] z-10 relative">
+          {/* Ramka złożona z 3 divów */}
           <div
             className="absolute left-0 top-0 w-[117px] h-full bg-center bg-cover"
             style={{ backgroundImage: `url(${leftBg})` }}
           ></div>
 
           <div
-            className="absolute left-[90px] right-[90px] top-[25px] h-[347px] bg-center bg-contain flex flex-col items-center justify-center z-20 text-amber-100 font-grenze"
+            className="absolute left-[90px] right-[90px] top-[0px] h-[400px] bg-center bg-contain z-20"
             style={{
               backgroundImage: `url(${middleBg})`,
               backgroundSize: "100% 100%",
               backgroundRepeat: "no-repeat",
             }}
-          >
+          ></div>
+
+          <div
+            className="absolute right-0 top-0 w-[117px] h-full bg-center bg-cover"
+            style={{ backgroundImage: `url(${rightBg})` }}
+          ></div>
+
+          <div className="absolute left-2 right-2 h-[400px] flex flex-col items-center justify-center z-30 text-amber-100 font-grenze">
             <div className="mb-5 text-5xl">
               {isWin ? "You Win" : "You lose"}
             </div>
             <div className="mb-5">
-              <h1 className="text-2xl">
-                Your points: <span className="font-bold">{score}</span>
+              <h1 className="text-xl md:text-2xl text-center">
+                Your points: <span className="font-bold ">{score}</span>
               </h1>
             </div>
             {isWin ? (
               <div className="flex flex-col items-center">
-                <h2 className="mb-5">Save your score in the Leaderboard!</h2>
+                <h2 className="mb-5 text-center">
+                  Save your score in the Leaderboard!
+                </h2>
                 <form onSubmit={handleSubmit}>
                   <input
                     type="text"
@@ -89,7 +99,7 @@ export default function Popup({
             ) : (
               ""
             )}
-            <div className="flex flex-row gap-5 mt-10">
+            <div className="flex flex-row gap-2 md:gap-5 mt-10">
               <button
                 className="cursor-pointer hover:text-amber-400"
                 onClick={onRestartClick}
@@ -104,11 +114,6 @@ export default function Popup({
               </button>
             </div>
           </div>
-
-          <div
-            className="absolute right-0 top-0 w-[117px] h-full bg-center bg-cover"
-            style={{ backgroundImage: `url(${rightBg})` }}
-          ></div>
         </div>
       </div>
     </div>
