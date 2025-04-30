@@ -1,7 +1,7 @@
 import Card from "../components/Card";
 import { useEffect, useState } from "react";
 import { GameState } from "../types/GameState";
-import { useLocation } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import initializeGame from "../utils/initializeGame";
 import { Link } from "react-router";
 import { CardProps } from "../types/CardProps";
@@ -11,6 +11,18 @@ import Popup from "./Popup";
 
 export default function BoardGame() {
   const location = useLocation();
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if (!location.state) {
+      navigate("/select-level");
+    }
+  }, []);
+
+  if (!location.state) {
+    return null;
+  }
+
   const state = location.state as {
     moves: number;
     difficulty: string;
