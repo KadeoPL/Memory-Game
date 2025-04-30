@@ -3,7 +3,8 @@ import { difficultyLevels } from "./difficultyLevels";
 export default function countPoints(
   moves: number,
   difficulty: string,
-  remainingTime: number
+  remainingTime: number,
+  matchedPairs: number
 ): number {
   const difficultyLevel = difficultyLevels.find(
     (level) => level.name === difficulty
@@ -13,7 +14,7 @@ export default function countPoints(
     return (
       moves * difficultyLevel.points.moves +
       remainingTime * difficultyLevel.points.time +
-      1000
+      matchedPairs * difficultyLevel.points.matchedPairs
     );
   }
 

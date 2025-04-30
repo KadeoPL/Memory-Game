@@ -45,6 +45,7 @@ export default function BoardGame() {
       setIsWin(false);
       setIsGamerOver(true);
       setGameState((prevState) => ({ ...prevState, moves: 0 }));
+      setGameState((prevState) => ({ ...prevState, time: 0 }));
       setTimeIsRunning(false);
     } else if (gameState.pairs === matchedPairs) {
       setIsWin(true);
@@ -205,6 +206,7 @@ export default function BoardGame() {
           moves={gameState.moves}
           difficulty={gameState.difficulty}
           remainingTime={gameState.time}
+          matchedPairs={matchedPairs}
         />
       ) : (
         ""

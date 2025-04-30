@@ -6,6 +6,7 @@ export const difficultyLevels = [
     points: {
       moves: 100,
       time: 200,
+      matchedPairs: 50,
     },
     time: 90,
   },
@@ -16,6 +17,7 @@ export const difficultyLevels = [
     points: {
       moves: 100,
       time: 300,
+      matchedPairs: 100,
     },
     time: 60,
   },
@@ -25,7 +27,8 @@ export const difficultyLevels = [
     moves: 20,
     points: {
       moves: 100,
-      time: 400,
+      time: 500,
+      matchedPairs: 200,
     },
     time: 45,
   },

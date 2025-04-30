@@ -12,6 +12,7 @@ interface PopupProps {
   moves: number;
   difficulty: string;
   remainingTime: number;
+  matchedPairs: number;
 }
 
 export default function Popup({
@@ -20,6 +21,7 @@ export default function Popup({
   moves,
   difficulty,
   remainingTime,
+  matchedPairs,
 }: PopupProps) {
   const [playerName, setPlayerName] = useState<string>("");
   const [alert, setAlert] = useState<string>("");
@@ -28,7 +30,12 @@ export default function Popup({
   const { saveResult, saving, error, success } = useSaveResults(difficulty);
 
   useEffect(() => {
-    const calculatedScore = countPoints(moves, difficulty, remainingTime);
+    const calculatedScore = countPoints(
+      moves,
+      difficulty,
+      remainingTime,
+      matchedPairs
+    );
     setScore(calculatedScore);
   }, [moves]);
 
