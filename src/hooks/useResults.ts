@@ -13,7 +13,7 @@ export function useResults(level: string) {
         .from(`leaderboard-${level}`)
         .select("*")
         .order("result", { ascending: false })
-        .limit(5);
+        .limit(8);
 
       if (error) {
         console.error(error);
