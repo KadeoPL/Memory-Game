@@ -21,8 +21,10 @@ export default function LeaderboardScreen() {
         {difficultyLevels.map((level, index) => (
           <button
             key={index}
-            className={`text-white text-2xl px-4 py-2 rounded ${
-              selectLevel === level.name ? "font-bold" : "font-regular"
+            className={`text-2xl px-4 py-2 cursor-pointer hover:text-amber-100 ${
+              selectLevel === level.name
+                ? "font-bold text-amber-300"
+                : "font-regular text-white"
             }`}
             onClick={() => {
               handleClick(level.name);
